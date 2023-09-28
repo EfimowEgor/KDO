@@ -2,3 +2,4 @@
 .idea
 .pre-commit-config.yaml
 pyproject.toml
+data_gen/backgrounds
