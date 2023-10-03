@@ -4,5 +4,6 @@
 pyproject.toml
 data_gen/backgrounds
 __pycache__
-images
+train_images
+val_images
 viz
