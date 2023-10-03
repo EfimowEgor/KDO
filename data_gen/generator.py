@@ -57,6 +57,10 @@ class Generator:
         )
         return scale_vector
 
+    def set_background(self: "Generator") -> None:
+        """Понятия не имею как это реализовать."""
+        ...
+
     def create_geons(
             self: "Generator", min_y: int, max_y: int, min_x: int, max_x: int) -> None:
         """Generate meshes and apply transformations.
@@ -217,7 +221,7 @@ class Generator:
             epochs: Number of generated images (number of renders)
         """
         # Path to save
-        base_dir = 'C:/Users/egore/Desktop/KR_CV/data/images'
+        base_dir = 'C:/Users/egore/Desktop/KR_CV/data/train_images'
         for i in range(epochs):
             self.create_geons(min_y=-10, min_x=-10, max_y=10, max_x=10)
             file_name = f"image{i}.png"
@@ -239,7 +243,7 @@ class Generator:
             )
             bpy.context.scene.frame_set(frame_current)
             bpy.ops.render.render(write_still=True)
-        with open("C:/Users/egore/Desktop/KR_CV/data/labels.json", 'w') as file:
+        with open("C:/Users/egore/Desktop/KR_CV/data/labels/labels.json", 'w') as file:
             json.dump(self.labels, file, indent=4)
 
 if __name__ == "__main__":
