@@ -1,3 +1,4 @@
+import argparse
 import json
 import math
 import os
@@ -31,25 +32,18 @@ class Generator:
         self.scene.render.pixel_aspect_x = 1.0
         self.scene.render.pixel_aspect_y = 1.0
 
-        for obj in self.scene.objects:
-            if obj.type == "LIGHT":
-                obj.select_set(True)
-        bpy.ops.object.delete()
-
-        self.light_data = bpy.data.lights.new(name='LightZ', type="POINT")
-        self.light_data.energy = 1000
-        self.light = bpy.data.objects.new(name="Light2", object_data=self.light_data)
-        bpy.context.collection.objects.link(self.light)
-        self.light.location = Vector((0, 0, 25))
-        bpy.context.view_layer.objects.active = self.light
-
-    def rotate(self: "Generator") -> Euler:
+    def rotate(self: "Generator", proba:int, cls: int) -> Euler:
         """Rotate selected object."""
+        # В зависимости от передаваемого подкласса
+
         rotate_vector = Euler(
             (
-                math.radians(random.randint(0, 179)),
-                math.radians(random.randint(0, 179)),
-                math.radians(random.randint(0, 179))
+                math.radians(random.randint(0,
+                                            self.parameters["parameters"][proba][cls]["max_rot_x"])),
+                math.radians(random.randint(0,
+                                            self.parameters["parameters"][proba][cls]["max_rot_y"])),
+                math.radians(random.randint(0,
+                                            self.parameters["parameters"][proba][cls]["max_rot_z"]))
             )
         )
         return rotate_vector
@@ -73,10 +67,10 @@ class Generator:
               (num_epochs // self.parameters["parameters"]["num_classes"]) % 5 + 1
         scale_vector = Vector(
             (
-                random.uniform(self.parameters["parameters"][proba][cls]["min_scale_xy"],
-                               self.parameters["parameters"][proba][cls]["max_scale_xy"]),
-                random.uniform(self.parameters["parameters"][proba][cls]["min_scale_xy"],
-                               self.parameters["parameters"][proba][cls]["max_scale_xy"]),
+                random.uniform(self.parameters["parameters"][proba][cls]["min_scale_x"],
+                               self.parameters["parameters"][proba][cls]["max_scale_x"]),
+                random.uniform(self.parameters["parameters"][proba][cls]["min_scale_y"],
+                               self.parameters["parameters"][proba][cls]["max_scale_y"]),
                 random.uniform(self.parameters["parameters"][proba][cls]["min_scale_z"],
                                self.parameters["parameters"][proba][cls]["max_scale_z"])
             )
@@ -103,13 +97,12 @@ class Generator:
         # Используем число объектов из файла конфига
         n = self.parameters["parameters"]["num_objects"]
         proba = it // (num_epochs // self.parameters["parameters"]["num_classes"]) + 1
+        print(proba)
         cls = (it * self.parameters["parameters"][proba]["num_subcls"]) // \
               (num_epochs // self.parameters["parameters"]["num_classes"]) % 5 + 1
         for i in range(n):
             # proba = random.randint(1, 1)
-            if proba == 1:
-                bpy.ops.mesh.primitive_cube_add(
-                    location=Vector(
+            loc_vector = Vector(
                         (
                             np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
                                               self.parameters["parameters"][proba][cls]["max_loc_xy"]),
@@ -118,39 +111,24 @@ class Generator:
                             np.random.uniform(self.parameters["parameters"][proba]["depth_min_z"],
                                               self.parameters["parameters"][proba]["depth_max_z"])
                         )
-                    ),
+                    )
+            if proba == 1:
+                bpy.ops.mesh.primitive_cube_add(
+                    location=loc_vector,
                     scale=self.resize(it, num_epochs),
-                    rotation=self.rotate()
+                    rotation=self.rotate(proba, cls)
                 )
             elif proba == 2:
                 bpy.ops.mesh.primitive_cone_add(
-                    location=Vector(
-                        (
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba]["depth_min_z"],
-                                              self.parameters["parameters"][proba]["depth_max_z"])
-                        )
-                    ),
+                    location=loc_vector,
                     scale=self.resize(it, num_epochs),
-                    rotation=self.rotate()
+                    rotation=self.rotate(proba, cls)
                 )
             elif proba == 3:
                 bpy.ops.mesh.primitive_uv_sphere_add(
-                    location=Vector(
-                        (
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba]["depth_min_z"],
-                                              self.parameters["parameters"][proba]["depth_max_z"])
-                        )
-                    ),
+                    location=loc_vector,
                     scale=self.resize(it, num_epochs),
-                    rotation=self.rotate()
+                    rotation=self.rotate(proba, cls)
                 )
                 bpy.context.object.data.polygons.foreach_set(
                     'use_smooth',  [True] * len(bpy.context.object.data.polygons)
@@ -158,50 +136,21 @@ class Generator:
                 bpy.context.object.data.update()
             elif proba == 4:
                 bpy.ops.mesh.primitive_cylinder_add(
-                    location=Vector(
-                        (
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba][cls]["min_loc_xy"],
-                                              self.parameters["parameters"][proba][cls]["max_loc_xy"]),
-                            np.random.uniform(self.parameters["parameters"][proba]["depth_min_z"],
-                                              self.parameters["parameters"][proba]["depth_max_z"])
-                        )
-                    ),
+                    location=loc_vector,
                     scale=self.resize(it, num_epochs),
-                    rotation=self.rotate()
+                    rotation=self.rotate(proba, cls)
                 )
                 bpy.context.object.data.polygons.foreach_set(
                     'use_smooth',  [True] * len(bpy.context.object.data.polygons)
                 )
                 bpy.context.object.data.update()
-            # else:
-            #     bpy.ops.mesh.primitive_torus_add(
-            #         location=Vector(
-            #             (
-            #                 np.random.uniform(min_x, max_x),
-            #                 np.random.uniform(min_y, max_y),
-            #                 np.random.uniform(1, 9)
-            #             )
-            #         ),
-            #         # scale=self.resize(),
-            #         major_radius=random.uniform(0.5, 1),
-            #         minor_radius=random.uniform(0.2, 0.8),
-            #         abso_major_rad=random.uniform(0.5, 1.2),
-            #         abso_minor_rad=random.uniform(0.2, 0.85),
-            #         rotation=self.rotate()
-            #     )
-            #     bpy.context.object.data.polygons.foreach_set(
-            #         'use_smooth',  [True] * len(bpy.context.object.data.polygons)
-            #     )
-            #     bpy.context.object.data.update()
             self.__change_color()
 
     def clamp(self: "Generator", x: int, minimum: int, maximum: int) -> int:
         """Select the maximum from the coordinates."""
         return max(minimum, min(x, maximum))
 
-    def get_2d_bounding_box(self: "Generator", me_ob: bpy.types.Mesh) -> tuple:
+    def get_2d_bounding_box(self: "Generator", me_ob: bpy.types.Mesh, img_size: int) -> tuple:
         """Get the coordinates of the bounding box in 2d."""
         mat = self.camera_obj.matrix_world.normalized().inverted()
         depsgraph = bpy.context.evaluated_depsgraph_get()
@@ -253,10 +202,10 @@ class Generator:
             return (0, 0, 0, 0)
 
         return (
-            round(min_x * dim_x),
-            round(dim_y - max_y * dim_y),
-            round((max_x - min_x) * dim_x) + round(min_x * dim_x),
-            round((max_y - min_y) * dim_y) + round(dim_y - max_y * dim_y)
+            ((round(min_x * dim_x) / 1920) * img_size),
+            ((round(dim_y - max_y * dim_y) / 1080) * img_size),
+            ((round((max_x - min_x) * dim_x) + round(min_x * dim_x)) / 1920) * img_size,
+            ((round((max_y - min_y) * dim_y) + round(dim_y - max_y * dim_y)) / 1080) * img_size
         )
 
     def write_bounds_2d(self: "Generator",
@@ -277,7 +226,7 @@ class Generator:
             # else:
             #     cls = 5
             bpy.context.scene.frame_set(frame_end)
-            coords = self.get_2d_bounding_box(obj)
+            coords = self.get_2d_bounding_box(obj, 640)
             row = {
                 "label": cls,
                 "xmin": coords[0],
@@ -285,6 +234,9 @@ class Generator:
                 "xmax": coords[2],
                 "ymax": coords[3]
             }
+            if row["xmin"] == 0 and row["ymin"] == 0 and \
+               row["xmax"] == 640 and row["ymax"] == 640:
+                continue
             single_label[file_name].append(row)
         return single_label
 
@@ -305,7 +257,7 @@ class Generator:
                         (
                             np.random.uniform(0, 0),
                             np.random.uniform(0, 0),
-                            np.random.uniform(-10, -5)
+                            np.random.uniform(-10, -10)
                         )
                     ),
                     scale=Vector(
@@ -316,9 +268,28 @@ class Generator:
                                 random.uniform(1, 1)
                             )
                     ),
-                    # rotation=self.rotate()
                 )
             self.__change_color()
+            # Удаление существующего света и создание его в новой позиции
+
+            for obj in bpy.context.scene.objects:
+                if obj.type == 'MESH':
+                    obj.select_set(False)
+
+            for obj in self.scene.objects:
+                if obj.type == "LIGHT":
+                    obj.select_set(True)
+            bpy.ops.object.delete()
+
+            light_data = bpy.data.lights.new(name='LightZ', type="POINT")
+            light_data.energy = 6000
+            light = bpy.data.objects.new(name="Light2", object_data=light_data)
+            bpy.context.collection.objects.link(light)
+            light.location = Vector((random.randint(-12, 12),
+                                          random.randint(-12, 12),
+                                          random.randint(35, 35)))
+            bpy.context.view_layer.objects.active = light
+
             file_name = f"image{i}.png"
             path = os.path.join(base_dir, file_name)
             bpy.context.scene.render.filepath = path
@@ -340,11 +311,17 @@ class Generator:
             bpy.ops.render.render(write_still=True)
             # resize image after render
             src = cv2.imread(path)
-            src = cv2.resize(src, (480, 480))
+            src = cv2.resize(src, (640, 640))
             cv2.imwrite(path, src)
         with open("C:/Users/egore/Desktop/KR_CV/data/labels/labels.json", 'w') as file:
             json.dump(self.labels, file, indent=4)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-e', '--epochs')
+
+    args = parser.parse_args()
+    epochs = int(args.epochs)
+
     generator = Generator()
-    generator.render(100)
+    generator.render(epochs)

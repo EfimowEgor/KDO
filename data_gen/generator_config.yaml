@@ -1,7 +1,7 @@
 parameters:
   num_objects: 1
   # Количество различных геометрических тел
-  num_classes: 4
+  num_classes: 1
   # Параметры генератора для куба
   # 1 - Cube
   # 2 - Cone
@@ -14,161 +14,190 @@ parameters:
     # 4 - Big
     # 5 - Large
   1:
-    depth_min_z: 3
-    depth_max_z: 7
-    num_subcls: 5
+    depth_min_z: 5
+    depth_max_z: 5
+    num_subcls: 4
+    # 20-30%
     1:
-      min_loc_xy: -6
-      max_loc_xy: 6
-      min_scale_xy: 0.1
-      max_scale_xy: 0.5
-      min_scale_z: 0.1
-      max_scale_z: 0.4
+      min_loc_xy: -1
+      max_loc_xy: 1
+      min_scale_x: 2
+      max_scale_x: 3
+      min_scale_y: 2
+      max_scale_y: 3
+      min_scale_z: 2
+      max_scale_z: 3
+      max_rot_x: 90
+      max_rot_y: 90
+      max_rot_z: 90
+    # 30-40%
     2:
-      min_loc_xy: -5
-      max_loc_xy: 5
-      min_scale_xy: 0.6
-      max_scale_xy: 1
-      min_scale_z: 0.2
-      max_scale_z: 0.9
+      min_loc_xy: -1
+      max_loc_xy: 1
+      min_scale_x: 4
+      max_scale_x: 5.3
+      min_scale_y: 4
+      max_scale_y: 5.3
+      min_scale_z: 1
+      max_scale_z: 3
+      max_rot_x: 18
+      max_rot_y: 18
+      max_rot_z: 12
+    # 40-50%
     3:
-      min_loc_xy: -4
-      max_loc_xy: 4
-      min_scale_xy: 1.1
-      max_scale_xy: 1.5
-      min_scale_z: 0.1
-      max_scale_z: 1
+      min_loc_xy: -0.5
+      max_loc_xy: 0.5
+      min_scale_x: 5.5
+      max_scale_x: 6.35
+      min_scale_y: 4.5
+      max_scale_y: 5.5
+      min_scale_z: 1
+      max_scale_z: 3
+      max_rot_x: 12
+      max_rot_y: 12
+      max_rot_z: 5
+    # 50-60%
     4:
-      min_loc_xy: -2
-      max_loc_xy: 2
-      min_scale_xy: 1.6
-      max_scale_xy: 3
-      min_scale_z: 0.3
-      max_scale_z: 2
-    5:
       min_loc_xy: 0
       max_loc_xy: 0
-      min_scale_xy: 3
-      max_scale_xy: 5
+      min_scale_x: 6.5
+      max_scale_x: 7.3
+      min_scale_y: 5
+      max_scale_y: 6
       min_scale_z: 1
       max_scale_z: 3
+      max_rot_x: 1
+      max_rot_y: 20
+      max_rot_z: 1
+    # 60-70%
+    # 5:
+    #   min_loc_xy: 0
+    #   max_loc_xy: 0
+    #   min_scale_xy: 4
+    #   max_scale_xy: 6
+    #   min_scale_z: 1
+    #   max_scale_z: 3
+    #   max_rot_x: 5
+    #   max_rot_y: 5
+    #   max_rot_z: 5
+
   # Параметры генератора для конуса
-  2:
-    depth_min_z: 3
-    depth_max_z: 7
-    num_subcls: 5
-    1:
-      min_loc_xy: -6
-      max_loc_xy: 6
-      min_scale_xy: 0.25
-      max_scale_xy: 0.7
-      min_scale_z: 0.1
-      max_scale_z: 0.4
-    2:
-      min_loc_xy: -5
-      max_loc_xy: 5
-      min_scale_xy: 0.75
-      max_scale_xy: 1.25
-      min_scale_z: 0.2
-      max_scale_z: 0.9
-    3:
-      min_loc_xy: -4
-      max_loc_xy: 4
-      min_scale_xy: 1.3
-      max_scale_xy: 1.8
-      min_scale_z: 0.1
-      max_scale_z: 1
-    4:
-      min_loc_xy: -2
-      max_loc_xy: 2
-      min_scale_xy: 1.85
-      max_scale_xy: 3
-      min_scale_z: 0.3
-      max_scale_z: 2
-    5:
-      min_loc_xy: -1
-      max_loc_xy: 1
-      min_scale_xy: 3
-      max_scale_xy: 5.5
-      min_scale_z: 1
-      max_scale_z: 3
-  # Параметры генератора для сферы
-  3:
-    depth_min_z: 3
-    depth_max_z: 7
-    num_subcls: 5
-    1:
-      min_loc_xy: -6
-      max_loc_xy: 6
-      min_scale_xy: 0.2
-      max_scale_xy: 0.6
-      min_scale_z: 0.1
-      max_scale_z: 0.4
-    2:
-      min_loc_xy: -5
-      max_loc_xy: 5
-      min_scale_xy: 0.65
-      max_scale_xy: 1
-      min_scale_z: 0.2
-      max_scale_z: 0.9
-    3:
-      min_loc_xy: -4
-      max_loc_xy: 4
-      min_scale_xy: 1
-      max_scale_xy: 1.6
-      min_scale_z: 0.1
-      max_scale_z: 1
-    4:
-      min_loc_xy: -2
-      max_loc_xy: 2
-      min_scale_xy: 1.7
-      max_scale_xy: 2.5
-      min_scale_z: 1
-      max_scale_z: 2.5
-    5:
-      min_loc_xy: -1
-      max_loc_xy: 1
-      min_scale_xy: 3.5
-      max_scale_xy: 6
-      min_scale_z: 2
-      max_scale_z: 4
-  # Параметры генератора для цилиндра
-  4:
-    depth_min_z: 3
-    depth_max_z: 7
-    num_subcls: 5
-    1:
-      min_loc_xy: -6
-      max_loc_xy: 6
-      min_scale_xy: 0.1
-      max_scale_xy: 0.5
-      min_scale_z: 0.1
-      max_scale_z: 0.4
-    2:
-      min_loc_xy: -5
-      max_loc_xy: 5
-      min_scale_xy: 0.6
-      max_scale_xy: 1
-      min_scale_z: 0.2
-      max_scale_z: 0.9
-    3:
-      min_loc_xy: -4
-      max_loc_xy: 4
-      min_scale_xy: 1.1
-      max_scale_xy: 1.5
-      min_scale_z: 0.1
-      max_scale_z: 1
-    4:
-      min_loc_xy: -2
-      max_loc_xy: 2
-      min_scale_xy: 1.6
-      max_scale_xy: 3
-      min_scale_z: 0.3
-      max_scale_z: 2
-    5:
-      min_loc_xy: -1
-      max_loc_xy: 1
-      min_scale_xy: 3
-      max_scale_xy: 5
-      min_scale_z: 1
-      max_scale_z: 3
+  # 2:
+  #   depth_min_z: 3
+  #   depth_max_z: 7
+  #   num_subcls: 5
+  #   1:
+  #     min_loc_xy: -6
+  #     max_loc_xy: 6
+  #     min_scale_xy: 0.25
+  #     max_scale_xy: 0.7
+  #     min_scale_z: 0.1
+  #     max_scale_z: 0.4
+  #   2:
+  #     min_loc_xy: -5
+  #     max_loc_xy: 5
+  #     min_scale_xy: 0.75
+  #     max_scale_xy: 1.25
+  #     min_scale_z: 0.2
+  #     max_scale_z: 0.9
+  #   3:
+  #     min_loc_xy: -4
+  #     max_loc_xy: 4
+  #     min_scale_xy: 1.3
+  #     max_scale_xy: 1.8
+  #     min_scale_z: 0.1
+  #     max_scale_z: 1
+  #   4:
+  #     min_loc_xy: -2
+  #     max_loc_xy: 2
+  #     min_scale_xy: 1.85
+  #     max_scale_xy: 3
+  #     min_scale_z: 0.3
+  #     max_scale_z: 2
+  #   5:
+  #     min_loc_xy: -1
+  #     max_loc_xy: 1
+  #     min_scale_xy: 3
+  #     max_scale_xy: 5.5
+  #     min_scale_z: 1
+  #     max_scale_z: 3
+  # # Параметры генератора для сферы
+  # 3:
+  #   depth_min_z: 3
+  #   depth_max_z: 7
+  #   num_subcls: 5
+  #   1:
+  #     min_loc_xy: -6
+  #     max_loc_xy: 6
+  #     min_scale_xy: 0.25
+  #     max_scale_xy: 0.6
+  #     min_scale_z: 0.1
+  #     max_scale_z: 0.4
+  #   2:
+  #     min_loc_xy: -5
+  #     max_loc_xy: 5
+  #     min_scale_xy: 0.65
+  #     max_scale_xy: 1
+  #     min_scale_z: 0.2
+  #     max_scale_z: 0.9
+  #   3:
+  #     min_loc_xy: -4
+  #     max_loc_xy: 4
+  #     min_scale_xy: 1
+  #     max_scale_xy: 1.6
+  #     min_scale_z: 0.1
+  #     max_scale_z: 1
+  #   4:
+  #     min_loc_xy: -2
+  #     max_loc_xy: 2
+  #     min_scale_xy: 1.7
+  #     max_scale_xy: 2.5
+  #     min_scale_z: 1
+  #     max_scale_z: 2.5
+  #   5:
+  #     min_loc_xy: -1
+  #     max_loc_xy: 1
+  #     min_scale_xy: 3.5
+  #     max_scale_xy: 6
+  #     min_scale_z: 2
+  #     max_scale_z: 4
+  # # Параметры генератора для цилиндра
+  # 4:
+  #   depth_min_z: 3
+  #   depth_max_z: 7
+  #   num_subcls: 5
+  #   1:
+  #     min_loc_xy: -6
+  #     max_loc_xy: 6
+  #     min_scale_xy: 0.25
+  #     max_scale_xy: 0.6
+  #     min_scale_z: 0.15
+  #     max_scale_z: 0.4
+  #   2:
+  #     min_loc_xy: -5
+  #     max_loc_xy: 5
+  #     min_scale_xy: 0.6
+  #     max_scale_xy: 1
+  #     min_scale_z: 0.2
+  #     max_scale_z: 0.9
+  #   3:
+  #     min_loc_xy: -4
+  #     max_loc_xy: 4
+  #     min_scale_xy: 1.1
+  #     max_scale_xy: 1.9
+  #     min_scale_z: 0.3
+  #     max_scale_z: 1.3
+  #   4:
+  #     min_loc_xy: -2
+  #     max_loc_xy: 2
+  #     min_scale_xy: 2
+  #     max_scale_xy: 3.5
+  #     min_scale_z: 0.8
+  #     max_scale_z: 2
+  #   5:
+  #     min_loc_xy: 0
+  #     max_loc_xy: 0
+  #     min_scale_xy: 3.7
+  #     max_scale_xy: 5.3
+  #     min_scale_z: 2
+  #     max_scale_z: 4

@@ -5,11 +5,11 @@ import torchvision
 from torchvision.io import read_image
 from torchvision.utils import draw_bounding_boxes
 
-with open('C:/Users/egore/Desktop/KR_CV/data/labels.json', 'r') as j:
+with open('C:/Users/egore/Desktop/KR_CV/data/labels/labels.json', 'r') as j:
     contents = json.loads(j.read())
 
 for i, key in enumerate(contents['labels']):
-    img = read_image(f'C:/Users/egore/Desktop/KR_CV/data/images/image{i}.png')
+    img = read_image(f'C:/Users/egore/Desktop/KR_CV/data/train_images/image{i}.png')
     transform = torchvision.transforms.Lambda(lambda x: x[:3])
     img = transform(img)
     boxes = []
